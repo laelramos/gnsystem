@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 03-Maio-2023 às 15:38
+-- Tempo de geração: 03-Maio-2023 às 16:40
 -- Versão do servidor: 8.0.32-0ubuntu0.22.04.2
 -- versão do PHP: 8.1.2-1ubuntu2.11
 
@@ -65,22 +65,21 @@ CREATE TABLE `images` (
 CREATE TABLE `products` (
   `id` int UNSIGNED NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_categorie` int DEFAULT NULL,
   `ean` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `franchise` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `manufacturer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_categorie` int DEFAULT NULL
+  `manufacturer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `products`
 --
 
-INSERT INTO `products` (`id`, `description`, `ean`, `category`, `franchise`, `manufacturer`, `id_categorie`) VALUES
-(6, 'Funko John Wick 580', '889698472388', '', NULL, NULL, 1),
-(5, 'Funko Ronan 75', '849803051761', NULL, NULL, NULL, NULL),
-(7, 'Funko Itachi 578', '889698404532', NULL, NULL, NULL, NULL),
-(18, 'Funko azog 48', '849803037413', NULL, NULL, NULL, NULL);
+INSERT INTO `products` (`id`, `description`, `id_categorie`, `ean`, `franchise`, `manufacturer`) VALUES
+(6, 'Funko John Wick 580', 1, '889698472388', NULL, NULL),
+(5, 'Funko Ronan 75', 1, '849803051761', NULL, NULL),
+(7, 'Funko Itachi 578', 3, '889698404532', NULL, NULL),
+(18, 'Funko azog 48', 2, '849803037413', NULL, NULL);
 
 -- --------------------------------------------------------
 
