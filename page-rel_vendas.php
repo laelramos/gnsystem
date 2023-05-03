@@ -28,7 +28,7 @@ require('_validacao.php');
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Vendas</h4>
+                        <h4 class="page-title">Vendas oi</h4>
                     </div>
                 </div>
             </div>
