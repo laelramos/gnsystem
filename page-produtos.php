@@ -9,6 +9,8 @@ require('_validacao.php');
 <head>
     <?php require('layout-head.php') ?>
     <!--This page CSS -->
+    <link href="assets/libs/jsgrid/jsgrid.css" rel="stylesheet">
+    <link href="assets/libs/jsgrid/jsgrid-theme.css" rel="stylesheet">
 
 </head>
 
@@ -39,7 +41,7 @@ require('_validacao.php');
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <div class="container-fluid">
-                <button id="addRow" class="btn btn-success mb-2" data-toggle="modal" data-target="#new-product-modal"><i class="fas fa-plus"></i>&nbsp; Adicionar</button>
+                <!-- <button id="addRow" class="btn btn-success mb-2" data-toggle="modal" data-target="#new-product-modal"><i class="fas fa-plus"></i>&nbsp; Adicionar</button> -->
 
 
                 <!-- ============================================================== -->
@@ -50,58 +52,8 @@ require('_validacao.php');
                             <div class="card-body">
 
                                 <div class="table-responsive">
-                                    <?php
-                                    // consulta SQL para recuperar os dados da tabela
-                                    $sql = "SELECT p.id, p.description, c.name as categorie, p.manufacturer, p.franchise, p.ean
-                                            FROM products p
-                                            LEFT JOIN categories c ON p.id_categorie = c.id_categorie";
+                                    <div id="jsgrid"></div>
 
-                                    // executa a consulta
-                                    $result = $conexao->query($sql);
-
-                                    // verifica se há resultados
-                                    if ($result->num_rows > 0) {
-                                        // gera a tabela com base nos resultados da consulta
-                                        echo '<table class="table">';
-                                        echo '<thead class=".bg-dark .text-white">';
-                                        echo '<tr>';
-                                        echo '<th>ID</th>';
-                                        echo '<th>Descrição</th>';
-                                        echo '<th>Categoria</th>';
-                                        echo '<th>Fabricante</th>';
-                                        echo '<th>Franquia</th>';
-                                        echo '<th>EAN</th>';
-                                        echo '<th>Ações</th>';
-                                        echo '</tr>';
-                                        echo '</thead>';
-                                        echo '<tbody>';
-
-                                        // itera sobre cada linha de resultado e gera uma nova linha na tabela HTML
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<tr>';
-                                            echo '<td>' . $row["id"] . '</td>';
-                                            echo '<td>' . $row["description"] . '</td>';
-                                            echo '<td>' . $row["categorie"] . '</td>';
-                                            echo '<td>' . $row["manufacturer"] . '</td>';
-                                            echo '<td>' . $row["franchise"] . '</td>';
-                                            echo '<td>' . $row["ean"] . '</td>';
-                                            echo '<td>
-                                                    <button type="button" class="btn waves-effect waves-light btn-info" data-id="' . $row["id"] . '" onclick="editarProduto(this)"><i class="mdi mdi-pencil"></i> </button>
-                                                    <button type="button" class="btn waves-effect waves-light btn-danger" onclick="excluirProduto(' . $row['id'] . ')"><i class="mdi mdi-delete"></i> </button>
-                                                  </td>';
-
-                                            echo '</tr>';
-                                        }
-
-                                        echo '</tbody>';
-                                        echo '</table>';
-                                    } else {
-                                        echo 'Não há resultados para exibir.';
-                                    }
-
-                                    // fecha a conexão com o banco de dados
-                                    $conexao->close();
-                                    ?>
                                 </div>
 
 
@@ -152,71 +104,194 @@ require('_validacao.php');
 
 
     <!--This page JavaScript -->
-    <!-- excluir produto -->
+    <script src="assets/libs/jsgrid/jsgrid.js"></script>
+    <script src="dist/js/pages/tables/jsgrid-init.js"></script>
+
     <script>
+        async function fetchProducts() {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        resolve(data);
+                    }
+                };
+                xhr.open("GET", "buscar_produtos.php");
+                xhr.send();
+            });
+        }
+
+        async function fetchCategories() {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        resolve(data);
+                    }
+                };
+                xhr.open("GET", "buscar_categorias.php");
+                xhr.send();
+            });
+        }
+
+        async function loadData() {
+            const productsPromise = fetchProducts();
+            const categoriesPromise = fetchCategories();
+
+            const products = await productsPromise;
+            const categories = await categoriesPromise;
+
+            products.forEach(item => {
+                const category = categories.find(cat => cat.id_categorie === item.id_categorie);
+                item.category_name = category ? category.name : "";
+            });
+
+            return {
+                products,
+                categories
+            };
+        }
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", async function() {
+            const {
+                products,
+                categories
+            } = await loadData();
+
+            $("#jsgrid").jsGrid({
+                width: "100%",
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: false,
+                data: products,
+                fields: [{
+                        name: "id",
+                        title: "ID",
+                        type: "number",
+                        width: 50
+                    },
+                    {
+                        name: "description",
+                        title: "Descrição",
+                        type: "text",
+                        width: 150
+                    },
+                    {
+                        name: "category_name",
+                        title: "Categoria",
+                        type: "select",
+                        items: categories,
+                        valueField: "id_categorie",
+                        textField: "name",
+                        itemTemplate: function(value, item) {
+                            return item.category_name;
+                        },
+                        width: 100
+                    },
+                    {
+                        name: "manufacturer",
+                        title: "Fabricante",
+                        type: "text",
+                        width: 100
+                    },
+                    {
+                        name: "franchise",
+                        title: "Franquia",
+                        type: "text",
+                        width: 100
+                    },
+                    {
+                        name: "ean",
+                        title: "EAN",
+                        type: "text",
+                        width: 100
+                    },
+                    {
+                        type: "control",
+                        editButton: true,
+                        deleteButton: true
+                    }
+                ],
+                onItemUpdated: async function(args) {
+                    const id = await salvarProduto(args.item);
+                    args.item.id = id;
+                    $("#jsgrid").jsGrid("updateItem", args.item);
+
+                    updateGridHeight($("#jsgrid").jsGrid("option", "data").length);
+                },
+                onItemDeleted: function(args) {
+                    excluirProduto(args.item.id);
+                    $("#jsgrid").jsGrid("deleteItem", args.item);
+
+                    updateGridHeight($("#jsgrid").jsGrid("option", "data").length);
+                },
+                onItemInserted: async function(args) {
+                    const id = await salvarProduto(args.item);
+                    args.item.id = id;
+
+                    const {
+                        products
+                    } = await loadData();
+                    $("#jsgrid").jsGrid("option", "data", products);
+
+                    updateGridHeight(products.length);
+
+                    $("#jsgrid").jsGrid("option", "inserting", false);
+                }
+
+
+            });
+
+            async function salvarProduto(produto) {
+                return new Promise((resolve, reject) => {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText));
+                        }
+                    };
+
+                    const categoria = categories.find(cat => cat.id_categorie === produto.id_categorie);
+                    const id_categorie = categoria ? categoria.id_categorie : '';
+
+                    if (produto.id) { // Atualizar produto existente
+                        xhr.open("POST", "atualizar_produto.php");
+                    } else { // Inserir novo produto
+                        xhr.open("POST", "criar_produto.php");
+                    }
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.send("id=" + produto.id + "&descricao=" + produto.description + "&categoria=" + id_categorie + "&fabricante=" + produto.manufacturer + "&franquia=" + produto.franchise + "&ean=" + produto.ean);
+                });
+            }
+
+        });
+
         function excluirProduto(id) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "excluir_produto.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    location.reload(); // recarrega a página após a exclusão
-                }
+                if (xhr.readyState == 4 && xhr.status == 200) {}
             }
             xhr.send("id=" + id);
         }
-    </script>
 
 
-    <script>
-        function salvarProduto() {
-            // obtém os valores dos campos do modal
-            var id = document.getElementById("modal-id").value;
-            var descricao = document.getElementById("modal-descricao").value;
-            var categoria = document.getElementById("modal-categoria").value;
-            var fabricante = document.getElementById("modal-fabricante").value;
-            var franquia = document.getElementById("modal-franquia").value;
-            var ean = document.getElementById("modal-ean").value;
-
-            // faz uma requisição AJAX para atualizar o produto no banco de dados
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // recarrega a página para exibir os dados atualizados
-                    location.reload();
-                }
-            };
-            xhr.open("POST", "atualizar_produto.php");
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.send("id=" + id + "&descricao=" + descricao + "&categoria=" + categoria + "&fabricante=" + fabricante + "&franquia=" + franquia + "&ean=" + ean);
-        }
-    </script>
 
 
-    <script>
-        function editarProduto(botao) {
-            var id = botao.getAttribute("data-id");
 
-            // faz uma requisição AJAX para buscar os dados do produto
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var produto = JSON.parse(xhr.responseText);
-
-                    // preenche os campos do modal com os dados do produto
-                    document.getElementById("modal-id").value = produto.id;
-                    document.getElementById("modal-descricao").value = produto.description;
-                    document.getElementById("modal-categoria").value = produto.category;
-                    document.getElementById("modal-fabricante").value = produto.manufacturer;
-                    document.getElementById("modal-franquia").value = produto.franchise;
-                    document.getElementById("modal-ean").value = produto.ean;
-
-                    // abre o modal do Bootstrap
-                    $("#modal-editar").modal("show");
-                }
-            };
-            xhr.open("GET", "buscar_produtos_editar.php?id=" + id);
-            xhr.send();
+        function updateGridHeight(rowCount) {
+            const headerHeight = 50;
+            const rowHeight = 50;
+            const totalHeight = headerHeight + rowCount * rowHeight;
+            $("#jsgrid").css("height", totalHeight + "px");
         }
     </script>
 

@@ -1,29 +1,24 @@
 <?php
-
 require_once('conexao.php');
 
-// Receba os dados do formulário
 $descricao = $_POST["descricao"];
 $categoria = $_POST["categoria"];
 $fabricante = $_POST["fabricante"];
 $franquia = $_POST["franquia"];
 $ean = $_POST["ean"];
 
-// Valide os campos do formulário
-if (empty($descricao) || empty($categoria) || empty($fabricante) || empty($franquia)){
-  die("Por favor, preencha todos os campos do formulário.");
-}
+$sql = "INSERT INTO products (description, id_categorie, manufacturer, franchise, ean)
+        VALUES (?, ?, ?, ?, ?)";
 
-// Insira o novo produto na tabela
-$sql = "INSERT INTO products (description, category, manufacturer, franchise, ean) VALUES ('$descricao', '$categoria', '$fabricante', '$franquia', '$ean')";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("sssss", $descricao, $categoria, $fabricante, $franquia, $ean);
 
-if ($conexao->query($sql) === TRUE) {
-  header('location: page-produtos.php');
+if ($stmt->execute()) {
+    echo $conexao->insert_id; // Retorna o ID do último produto inserido
 } else {
-  echo "Erro ao criar o produto: " . $conexao->error;
+    echo "Erro ao inserir produto: " . $stmt->error;
 }
 
-// Feche a conexão com o banco de dados
+$stmt->close();
 $conexao->close();
 ?>
-
