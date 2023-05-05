@@ -176,14 +176,6 @@ require('_validacao.php');
             var franquia = document.getElementById("modal-franquia").value;
             var ean = document.getElementById("modal-ean").value;
 
-            // Validação da categoria selecionada
-            if (categoria === "1") {
-                document.getElementById("modal-categoria").classList.add("is-invalid");
-                return;
-            } else {
-                document.getElementById("modal-categoria").classList.remove("is-invalid");
-            }
-            
 
             // faz uma requisição AJAX para atualizar o produto no banco de dados
             var xhr = new XMLHttpRequest();
@@ -256,6 +248,64 @@ require('_validacao.php');
         });
 
 
+        function validarCamposEditar() {
+
+            // obtém o valor dos campos do modal
+            var descricao = document.getElementById("modal-descricao").value;
+            var categoria = document.getElementById("modal-categoria").value;
+
+            var camposVazios = false;
+
+            // Validação do campo descrição
+            if (!descricao) {
+                document.getElementById("modal-descricao").classList.add("is-invalid");
+                camposVazios = true;
+            } else {
+                document.getElementById("modal-descricao").classList.remove("is-invalid");
+            }
+
+            // Validação da categoria selecionada
+            if (categoria === "1") {
+                document.getElementById("modal-categoria").classList.add("is-invalid");
+                camposVazios = true;
+            } else {
+                document.getElementById("modal-categoria").classList.remove("is-invalid");
+            }
+
+            // Se os campos nao estiverem vazios, salva o produto
+            if (!camposVazios) {
+                salvarProduto();
+            }
+        }
+
+
+        function validarCamposCriar() {
+            var descricao = document.getElementById("descricaoProduto").value;
+            var categoria = document.getElementById("criar-categoria").value;
+            var fabricante = document.getElementById("fabricanteProduto").value;
+            var franquia = document.getElementById("franquiaProduto").value;
+            var ean = document.getElementById("eanProduto").value;
+
+            var camposValidos = true;
+
+            if (!descricao) {
+                document.getElementById("descricaoProduto").classList.add("is-invalid");
+                camposValidos = false;
+            } else {
+                document.getElementById("descricaoProduto").classList.remove("is-invalid");
+            }
+
+            if (categoria === "1") {
+                document.getElementById("criar-categoria").classList.add("is-invalid");
+                camposValidos = false;
+            } else {
+                document.getElementById("criar-categoria").classList.remove("is-invalid");
+            }
+
+            if (camposValidos) {
+                document.getElementById("formNovoProduto").submit();
+            }
+        }
     </script>
 
 

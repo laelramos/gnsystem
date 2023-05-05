@@ -19,6 +19,7 @@ require_once('conexao.php');
                     <div class="form-group">
                         <label for="descricaoProduto">Descrição</label>
                         <input type="text" class="form-control" id="descricaoProduto" name="descricao">
+                        <div class="invalid-feedback">Por favor, inclua uma descrição.</div>
                     </div>
                     <div class="form-group">
                         <label for="eanProduto">Código EAN</label>
@@ -29,6 +30,7 @@ require_once('conexao.php');
                         <select class="form-control" id="criar-categoria" name="categoria">
                             <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
                         </select>
+                        <div class="invalid-feedback">Por favor, selecione uma categoria.</div>
                     </div>
                     <div class="form-group">
                         <label for="fabricanteProduto">Fabricante</label>
@@ -42,7 +44,8 @@ require_once('conexao.php');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success" form="formNovoProduto">Adicionar</button>
+                <button type="button" class="btn btn-success" onclick="validarCamposCriar();">Adicionar</button>
+
             </div>
         </div>
     </div>
@@ -63,11 +66,14 @@ require_once('conexao.php');
                 <form>
                     <div class="form-group">
                         <label for="modal-id">ID</label>
-                        <input type="number" class="form-control" id="modal-id" readonly>
+                        <input type="number" class="form-control" id="modal-id" disabled>
                     </div>
                     <div class="form-group">
                         <label for="modal-descricao">Descrição</label>
                         <input type="text" class="form-control" id="modal-descricao">
+                        <div class="invalid-feedback">
+                            Por favor, inclua uma descrição.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="modal-categoria">Categoria</label>
@@ -94,7 +100,7 @@ require_once('conexao.php');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-success" onclick="salvarProduto()">Salvar</button>
+                <button type="button" class="btn btn-success" onclick="validarCamposEditar()">Salvar</button>
             </div>
         </div>
     </div>
