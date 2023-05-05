@@ -165,10 +165,8 @@ require('_validacao.php');
             }
             xhr.send("id=" + id);
         }
-    </script>
 
 
-    <script>
         function salvarProduto() {
             // obtém os valores dos campos do modal
             var id = document.getElementById("modal-id").value;
@@ -177,6 +175,15 @@ require('_validacao.php');
             var fabricante = document.getElementById("modal-fabricante").value;
             var franquia = document.getElementById("modal-franquia").value;
             var ean = document.getElementById("modal-ean").value;
+
+            // Validação da categoria selecionada
+            if (categoria === "1") {
+                document.getElementById("modal-categoria").classList.add("is-invalid");
+                return;
+            } else {
+                document.getElementById("modal-categoria").classList.remove("is-invalid");
+            }
+            
 
             // faz uma requisição AJAX para atualizar o produto no banco de dados
             var xhr = new XMLHttpRequest();
@@ -190,10 +197,8 @@ require('_validacao.php');
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("id=" + id + "&descricao=" + descricao + "&categoria=" + categoria + "&fabricante=" + fabricante + "&franquia=" + franquia + "&ean=" + ean);
         }
-    </script>
 
 
-    <script>
         function editarProduto(botao) {
             var id = botao.getAttribute("data-id");
 
@@ -205,10 +210,10 @@ require('_validacao.php');
                     var produto = JSON.parse(xhr.responseText);
 
                     // Preenche o campo select com as categorias e define a categoria selecionada
-            var selectCategoria = document.getElementById("modal-categoria");
-            selectCategoria.innerHTML = ""; // Limpa as opções existentes
-            carregarCategorias(selectCategoria);
-            selectCategoria.value = produto.id_categorie;
+                    var selectCategoria = document.getElementById("modal-categoria");
+                    selectCategoria.innerHTML = ""; // Limpa as opções existentes
+                    carregarCategorias(selectCategoria);
+                    selectCategoria.value = produto.id_categorie;
 
                     // preenche os campos do modal com os dados do produto
                     document.getElementById("modal-id").value = produto.id;
@@ -226,23 +231,30 @@ require('_validacao.php');
             xhr.send();
         }
 
+
         function carregarCategorias(selectElement) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var categorias = JSON.parse(xhr.responseText);
-            
-            categorias.forEach(function(categoria) {
-                var option = document.createElement("option");
-                option.value = categoria.id_categorie;
-                option.textContent = categoria.name;
-                selectElement.appendChild(option);
-            });
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var categorias = JSON.parse(xhr.responseText);
+
+                    categorias.forEach(function(categoria) {
+                        var option = document.createElement("option");
+                        option.value = categoria.id_categorie;
+                        option.textContent = categoria.name;
+                        selectElement.appendChild(option);
+                    });
+                }
+            };
+            xhr.open("GET", "buscar_categorias.php");
+            xhr.send();
         }
-    };
-    xhr.open("GET", "buscar_categorias.php");
-    xhr.send();
-}
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var selectCategoriaCriar = document.getElementById("criar-categoria");
+            carregarCategorias(selectCategoriaCriar);
+        });
+
 
     </script>
 
