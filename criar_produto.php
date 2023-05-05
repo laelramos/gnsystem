@@ -3,11 +3,11 @@
 require_once('conexao.php');
 
 // Receba os dados do formulário
-$descricao = $_POST["descricao"];
-$categoria = $_POST["categoria"];
-$fabricante = $_POST["fabricante"];
-$franquia = $_POST["franquia"];
-$ean = $_POST["ean"];
+$descricao = isset($_POST["descricao"]) ? trim($_POST["descricao"]) : '';
+$categoria = isset($_POST["categoria"]) ? trim($_POST["categoria"]) : '';
+$fabricante = isset($_POST["fabricante"]) ? trim($_POST["fabricante"]) : '';
+$franquia = isset($_POST["franquia"]) ? trim($_POST["franquia"]) : '';
+$ean = isset($_POST["ean"]) ? trim($_POST["ean"]) : '';
 
 // Valide os campos do formulário
 if (empty($descricao) || empty($categoria) || empty($fabricante) || empty($franquia)){
@@ -15,15 +15,24 @@ if (empty($descricao) || empty($categoria) || empty($fabricante) || empty($franq
 }
 
 // Insira o novo produto na tabela
-$sql = "INSERT INTO products (description, category, manufacturer, franchise, ean) VALUES ('$descricao', '$categoria', '$fabricante', '$franquia', '$ean')";
+$sql = "INSERT INTO products (description, id_categorie, manufacturer, franchise, ean) VALUES (?, ?, ?, ?, ?)";
 
-if ($conexao->query($sql) === TRUE) {
+$stmt = $conexao->prepare($sql);
+if ($stmt === false) {
+    die("Erro ao preparar a consulta: " . $conexao->error);
+}
+
+$stmt->bind_param("sssss", $descricao, $categoria, $fabricante, $franquia, $ean);
+
+if ($stmt->execute()) {
   header('location: page-produtos.php');
 } else {
-  echo "Erro ao criar o produto: " . $conexao->error;
+  echo "Erro ao criar o produto: " . $stmt->error;
 }
 
 // Feche a conexão com o banco de dados
+$stmt->close();
 $conexao->close();
 ?>
+
 

@@ -201,12 +201,13 @@ require('_validacao.php');
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
                     var produto = JSON.parse(xhr.responseText);
 
                     // preenche os campos do modal com os dados do produto
                     document.getElementById("modal-id").value = produto.id;
                     document.getElementById("modal-descricao").value = produto.description;
-                    document.getElementById("modal-categoria").value = produto.category;
+                    document.getElementById("modal-categoria").value = produto.category_name;
                     document.getElementById("modal-fabricante").value = produto.manufacturer;
                     document.getElementById("modal-franquia").value = produto.franchise;
                     document.getElementById("modal-ean").value = produto.ean;
