@@ -69,7 +69,9 @@ require_once('conexao.php');
           </div>
           <div class="form-group">
             <label for="modal-categoria">Categoria</label>
-            <input type="text" class="form-control" id="modal-categoria">
+            <select class="form-control" id="modal-categoria">
+    <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+</select>
           </div>
           <div class="form-group">
             <label for="modal-fabricante">Fabricante</label>

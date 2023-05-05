@@ -204,6 +204,12 @@ require('_validacao.php');
                     console.log(xhr.responseText);
                     var produto = JSON.parse(xhr.responseText);
 
+                    // Preenche o campo select com as categorias e define a categoria selecionada
+            var selectCategoria = document.getElementById("modal-categoria");
+            selectCategoria.innerHTML = ""; // Limpa as opções existentes
+            carregarCategorias(selectCategoria);
+            selectCategoria.value = produto.id_categorie;
+
                     // preenche os campos do modal com os dados do produto
                     document.getElementById("modal-id").value = produto.id;
                     document.getElementById("modal-descricao").value = produto.description;
@@ -219,6 +225,25 @@ require('_validacao.php');
             xhr.open("GET", "buscar_produtos_editar.php?id=" + id);
             xhr.send();
         }
+
+        function carregarCategorias(selectElement) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var categorias = JSON.parse(xhr.responseText);
+            
+            categorias.forEach(function(categoria) {
+                var option = document.createElement("option");
+                option.value = categoria.id_categorie;
+                option.textContent = categoria.name;
+                selectElement.appendChild(option);
+            });
+        }
+    };
+    xhr.open("GET", "buscar_categorias.php");
+    xhr.send();
+}
+
     </script>
 
 
