@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `id_categorie` int NOT NULL,
+  `id_category` int NOT NULL,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dataUpload` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -37,7 +37,7 @@ CREATE TABLE `categories` (
 -- Extraindo dados da tabela `categories`
 --
 
-INSERT INTO `categories` (`id_categorie`, `name`, `dataUpload`) VALUES
+INSERT INTO `categories` (`id_category`, `name`, `dataUpload`) VALUES
 (1, 'Funko Pop', '2023-05-03'),
 (2, 'Figure', '2023-05-03'),
 (3, 'Q Posket', '2023-05-03');
@@ -77,7 +77,7 @@ CREATE TABLE `images` (
 CREATE TABLE `products` (
   `id` int UNSIGNED NOT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_categorie` int DEFAULT NULL,
+  `id_category` int DEFAULT NULL,
   `ean` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `franchise` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `manufacturer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
@@ -87,7 +87,7 @@ CREATE TABLE `products` (
 -- Extraindo dados da tabela `products`
 --
 
-INSERT INTO `products` (`id`, `description`, `id_categorie`, `ean`, `franchise`, `manufacturer`) VALUES
+INSERT INTO `products` (`id`, `description`, `id_category`, `ean`, `franchise`, `manufacturer`) VALUES
 (6, 'Funko John Wick 580', 1, '889698472388', NULL, NULL),
 (5, 'Funko Ronan 75', 1, '849803051761', NULL, NULL),
 (7, 'Funko Itachi 578', 3, '889698404532', NULL, NULL),
@@ -189,7 +189,7 @@ CREATE TABLE `vendors` (
 -- Índices para tabela `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id_categorie`);
+  ADD PRIMARY KEY (`id_category`);
 
 --
 -- Índices para tabela `clients`
@@ -208,7 +208,7 @@ ALTER TABLE `images`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categorie` (`id_categorie`);
+  ADD KEY `id_category` (`id_category`);
 
 --
 -- Índices para tabela `purchases`
@@ -254,7 +254,7 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT de tabela `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id_categorie` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_category` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `clients`

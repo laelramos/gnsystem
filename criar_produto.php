@@ -11,7 +11,7 @@ $ean = isset($_POST["ean"]) ? trim($_POST["ean"]) : '';
 
 
 // Insira o novo produto na tabela
-$sql = "INSERT INTO products (description, id_categorie, manufacturer, franchise, ean) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO products (description, id_category, manufacturer, franchise, ean) VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $conexao->prepare($sql);
 if ($stmt === false) {

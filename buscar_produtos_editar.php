@@ -12,7 +12,7 @@ if (isset($_GET["id"])) {
     // Consulta SQL para buscar os dados do produto junto com a coluna 'name' da tabela 'categories'
     $sql = "SELECT products.id, products.description, categories.name as category_name, products.manufacturer, products.franchise, products.ean
     FROM products
-    JOIN categories ON products.id_categorie = categories.id_categorie
+    JOIN categories ON products.id_category = categories.id_category
     WHERE products.id = ?";
 
 

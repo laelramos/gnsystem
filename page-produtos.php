@@ -54,7 +54,7 @@ require('_validacao.php');
                                     // consulta SQL para recuperar os dados da tabela
                                     $sql = "SELECT p.id, p.description, c.name as categorie, p.manufacturer, p.franchise, p.ean
                                             FROM products p
-                                            LEFT JOIN categories c ON p.id_categorie = c.id_categorie";
+                                            LEFT JOIN categories c ON p.id_category = c.id_category";
 
                                     // executa a consulta
                                     $result = $conexao->query($sql);
@@ -205,7 +205,7 @@ require('_validacao.php');
                     var selectCategoria = document.getElementById("modal-categoria");
                     selectCategoria.innerHTML = ""; // Limpa as opções existentes
                     carregarCategorias(selectCategoria);
-                    selectCategoria.value = produto.id_categorie;
+                    selectCategoria.value = produto.id_category;
 
                     // preenche os campos do modal com os dados do produto
                     document.getElementById("modal-id").value = produto.id;
@@ -232,7 +232,7 @@ require('_validacao.php');
 
                     categorias.forEach(function(categoria) {
                         var option = document.createElement("option");
-                        option.value = categoria.id_categorie;
+                        option.value = categoria.id_category;
                         option.textContent = categoria.name;
                         selectElement.appendChild(option);
                     });

@@ -2,7 +2,7 @@
 
 require_once('conexao.php');
 
-$sql = "SELECT id_categorie, name FROM categories";
+$sql = "SELECT id_category, name FROM categories";
 $result = $conexao->query($sql);
 
 $categorias = [];

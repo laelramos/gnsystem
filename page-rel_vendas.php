@@ -28,7 +28,7 @@ require('_validacao.php');
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Vendas oi</h4>
+                        <h4 class="page-title">Vendas</h4>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,6 @@ require('_validacao.php');
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <div class="container-fluid">
-                <button id="addRow" class="btn btn-success mb-2" data-toggle="modal" data-target="#new-product-modal"><i class="fas fa-plus"></i>&nbsp; Adicionar</button>
-
 
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -52,7 +50,7 @@ require('_validacao.php');
                                 <div class="table-responsive">
                                     <?php
                                     // consulta SQL para recuperar os dados da tabela
-                                    $sql = "SELECT id, description, category, manufacturer, franchise, ean FROM products";
+                                    $sql = "SELECT id, description, id_category, manufacturer, franchise, ean FROM products";
 
                                     // executa a consulta
                                     $result = $conexao->query($sql);

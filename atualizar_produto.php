@@ -11,7 +11,7 @@ $franquia = $_POST["franquia"];
 $ean = $_POST["ean"];
 
 // faz uma consulta SQL para atualizar o produto no banco de dados
-$sql = "UPDATE products SET description = '$descricao', id_categorie = '$categoria', manufacturer = '$fabricante', franchise = '$franquia', ean = '$ean' WHERE id = $id";
+$sql = "UPDATE products SET description = '$descricao', id_category = '$categoria', manufacturer = '$fabricante', franchise = '$franquia', ean = '$ean' WHERE id = $id";
 $conexao->query($sql);
 
 // retorna uma resposta de sucesso
