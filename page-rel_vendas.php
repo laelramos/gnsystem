@@ -48,56 +48,25 @@ require('_validacao.php');
                             <div class="card-body">
 
                                 <div class="table-responsive">
-                                    <?php
-                                    // consulta SQL para recuperar os dados da tabela
-                                    $sql = "SELECT id, description, id_category, manufacturer, franchise, ean FROM products";
+                                    <table class="table">
+                                        <div class="card-header bg-dark">
+                                            <h5 class="m-b-0 text-white">Compra #id_sale</h5>
+                                            <h5 class="m-b-0 text-right">08/05/2023 | Finalizado</h5>
+                                        </div>
+                                        <thead class=".bg-dark .text-white">
+                                            <th>ID</th>
+                                            <th>Descrição</th>
+                                            <th>Categoria</th>
+                                            <th>Fabricante</th>
+                                            <th>Franquia</th>
+                                            <th>EAN</th>
+                                            <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                                    // executa a consulta
-                                    $result = $conexao->query($sql);
-
-                                    // verifica se há resultados
-                                    if ($result->num_rows > 0) {
-                                        // gera a tabela com base nos resultados da consulta
-                                        echo '<table class="table">';
-                                        echo '<thead class=".bg-dark .text-white">';
-                                        echo '<tr>';
-                                        echo '<th>ID</th>';
-                                        echo '<th>Descrição</th>';
-                                        echo '<th>Categoria</th>';
-                                        echo '<th>Fabricante</th>';
-                                        echo '<th>Franquia</th>';
-                                        echo '<th>EAN</th>';
-                                        echo '<th>Ações</th>';
-                                        echo '</tr>';
-                                        echo '</thead>';
-                                        echo '<tbody>';
-
-                                        // itera sobre cada linha de resultado e gera uma nova linha na tabela HTML
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<tr>';
-                                            echo '<td>' . $row["id"] . '</td>';
-                                            echo '<td>' . $row["description"] . '</td>';
-                                            echo '<td>' . $row["category"] . '</td>';
-                                            echo '<td>' . $row["manufacturer"] . '</td>';
-                                            echo '<td>' . $row["franchise"] . '</td>';
-                                            echo '<td>' . $row["ean"] . '</td>';
-                                            echo '<td>
-                                        <button type="button" class="btn waves-effect waves-light btn-info" data-id="' . $row["id"] . '" onclick="editarProduto(this)"><i class="mdi mdi-pencil"></i> </button>
-                                        <button type="button" class="btn waves-effect waves-light btn-danger" onclick="excluirProduto(' . $row['id'] . ')"><i class="mdi mdi-delete"></i> </button>
-                                      </td>';
-
-                                            echo '</tr>';
-                                        }
-
-                                        echo '</tbody>';
-                                        echo '</table>';
-                                    } else {
-                                        echo 'Não há resultados para exibir.';
-                                    }
-
-                                    // fecha a conexão com o banco de dados
-                                    $conexao->close();
-                                    ?>
                                 </div>
                             </div>
                         </div>

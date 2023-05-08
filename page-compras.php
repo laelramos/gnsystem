@@ -45,79 +45,76 @@ require('_validacao.php');
                 <!-- Column -->
                 <div class="row show-grid">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="col-md-12 card-header d-flex justify-content-between">
-                                <h5 class="-b-0 text-white col-md-3">Compra #002</h5>
-                                <h5 class="-b-0 text-white col-md-3 text-right">00/00/00 | Em trânsito</h5>
-                            </div>
+                        <?php
+                        $sql_compras = "SELECT * FROM purchases";
+                        $result_compras = $conexao->query($sql_compras);
+                        ?>
 
-                            <div class="table-responsive">
-                                <table id="product-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Descrição</th>
-                                            <th>Quantidade</th>
-                                            <th>EAN</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>15</td>
-                                            <td>Produto 1</td>
-                                            <td>1</td>
-                                            <td>000000000000</td>
-                                            <td>R#150,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>15</td>
-                                            <td>Produto 2</td>
-                                            <td>1</td>
-                                            <td>000000000000</td>
-                                            <td>R#150,00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <?php
+                        if ($result_compras->num_rows > 0) {
+                            while ($row_compra = $result_compras->fetch_assoc()) {
+                                $id_purchase = $row_compra["id_purchase"];
+                                $date_purchase = $row_compra["date_purchase"];
+                                $total_purchase = $row_compra["total_purchase"];
 
-                        <div class="card">
-                            <div class="col-md-12 card-header d-flex justify-content-between">
-                                <h5 class="-b-0 text-white col-md-3">Compra #001</h5>
-                                <h5 class="-b-0 text-white col-md-3 text-right">00/00/00 | Finalizado</h5>
-                            </div>
+                                $sql_itens = "SELECT purchases_items.*, products.description FROM purchases_items JOIN products ON purchases_items.id_product = products.id WHERE id_purchase = $id_purchase";
+                                $result_itens = $conexao->query($sql_itens);
+                        ?>
+                                <div class="card">
+                                    <div class="col-md-12 card-header d-flex justify-content-between">
+                                        <h5 class="-b-0 text-white col-md-3">Compra #<?php echo $id_purchase; ?></h5>
+                                        <h5 class="-b-0 text-white col-md-3 text-right"><?php echo $date_purchase; ?></h5>
+                                    </div>
 
-                            <div class="table-responsive">
-                                <table id="product-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Descrição</th>
-                                            <th>Quantidade</th>
-                                            <th>EAN</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>15</td>
-                                            <td>Produto 1</td>
-                                            <td>1</td>
-                                            <td>000000000000</td>
-                                            <td>R#150,00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>15</td>
-                                            <td>Produto 2</td>
-                                            <td>1</td>
-                                            <td>000000000000</td>
-                                            <td>R#150,00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    <div class="table-responsive">
+                                        <table id="product-table" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Descrição</th>
+                                                    <th>Qtd.</th>
+                                                    <th>Valor Unitário</th>
+                                                    <th>Total</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                if ($result_itens->num_rows > 0) {
+                                                    while ($row_item = $result_itens->fetch_assoc()) {
+                                                        $description = $row_item["description"];
+                                                        $quantity = $row_item["quantity"];
+                                                        $price = $row_item["price"];
+                                                        $total = $quantity * $price;
+                                                ?>
+                                                        <tr>
+                                                            <td><?php echo $description; ?></td>
+                                                            <td><?php echo $quantity; ?></td>
+                                                            <td><?php echo $price; ?></td>
+                                                            <td><?php echo $total; ?></td>
+                                                            <th><span class="text-success">Em trânsito</span></th>
+                                                        </tr>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="4" style="text-align:right">Total:</th>
+                                                    <th><?php echo $total_purchase; ?></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                        <?php
+                            }
+                        } else {
+                            echo "<p>Nenhuma compra encontrada.</p>";
+                        }
+                        ?>
+
+
 
                     </div>
                 </div>
