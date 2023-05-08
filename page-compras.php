@@ -56,14 +56,18 @@ require('_validacao.php');
                                 $id_purchase = $row_compra["id_purchase"];
                                 $date_purchase = $row_compra["date_purchase"];
                                 $total_purchase = $row_compra["total_purchase"];
-
+                                
+                                // formata data
+                                $date_purchase_obj = DateTime::createFromFormat('Y-m-d', $date_purchase);
+                                $date_purchase_formatted = $date_purchase_obj->format('d/m/Y');
+                                
                                 $sql_itens = "SELECT purchases_items.*, products.description FROM purchases_items JOIN products ON purchases_items.id_product = products.id WHERE id_purchase = $id_purchase";
                                 $result_itens = $conexao->query($sql_itens);
                         ?>
                                 <div class="card">
                                     <div class="col-md-12 card-header d-flex justify-content-between">
                                         <h5 class="-b-0 text-white col-md-3">Compra #<?php echo $id_purchase; ?></h5>
-                                        <h5 class="-b-0 text-white col-md-3 text-right"><?php echo $date_purchase; ?></h5>
+                                        <h5 class="-b-0 text-white col-md-3 text-right"><?php echo $date_purchase_formatted; ?></h5>
                                     </div>
 
                                     <div class="table-responsive">
@@ -90,7 +94,6 @@ require('_validacao.php');
                                                         $price_formatted = "R$" . number_format($price, 2, ',', '.');
                                                         $total_formatted = "R$" . number_format($total, 2, ',', '.');
                                                         $total_purchase_formatted = "R$" . number_format($total_purchase, 2, ',', '.');
-
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $description; ?></td>
