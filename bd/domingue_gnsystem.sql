@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 03-Maio-2023 às 16:40
--- Versão do servidor: 8.0.32-0ubuntu0.22.04.2
+-- Tempo de geração: 08-Maio-2023 às 10:41
+-- Versão do servidor: 8.0.33-0ubuntu0.22.04.1
 -- versão do PHP: 8.1.2-1ubuntu2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categories` (
   `id_categorie` int NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dataUpload` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -45,14 +45,26 @@ INSERT INTO `categories` (`id_categorie`, `name`, `dataUpload`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `clients`
+--
+
+CREATE TABLE `clients` (
+  `id_client` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rate` float NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `images`
 --
 
 CREATE TABLE `images` (
   `id_image` int NOT NULL,
   `id_category` int NOT NULL,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dataUpload` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -64,11 +76,11 @@ CREATE TABLE `images` (
 
 CREATE TABLE `products` (
   `id` int UNSIGNED NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_categorie` int DEFAULT NULL,
-  `ean` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `franchise` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `manufacturer` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `ean` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `franchise` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `manufacturer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -84,24 +96,56 @@ INSERT INTO `products` (`id`, `description`, `id_categorie`, `ean`, `franchise`,
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `product_entries`
+-- Estrutura da tabela `purchases`
 --
 
-CREATE TABLE `product_entries` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` int DEFAULT NULL,
-  `entry_quantity` int DEFAULT NULL,
-  `entry_date` date DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `batch_number` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `purchases` (
+  `id_purchase` int NOT NULL,
+  `date_purchase` date NOT NULL,
+  `id_vendor` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Extraindo dados da tabela `product_entries`
+-- Estrutura da tabela `purchases_items`
 --
 
-INSERT INTO `product_entries` (`id`, `product_id`, `entry_quantity`, `entry_date`, `description`, `batch_number`) VALUES
-(1, 48, 10, '2023-04-30', 'Random description', 1);
+CREATE TABLE `purchases_items` (
+  `id_item_purchase` int NOT NULL,
+  `id_purchase` int NOT NULL,
+  `id_product` int NOT NULL,
+  `quantity` int NOT NULL,
+  `price` float NOT NULL,
+  `date_entry` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `sales`
+--
+
+CREATE TABLE `sales` (
+  `id_sale` int NOT NULL,
+  `date_sale` date NOT NULL,
+  `id_client` int NOT NULL,
+  `amount` float NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `sales_items`
+--
+
+CREATE TABLE `sales_items` (
+  `id_item_sale` int NOT NULL,
+  `id_sale` int NOT NULL,
+  `id_product` int NOT NULL,
+  `quantity` int NOT NULL,
+  `price_sale` float NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -111,10 +155,10 @@ INSERT INTO `product_entries` (`id`, `product_id`, `entry_quantity`, `entry_date
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `level` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `level` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -126,6 +170,17 @@ INSERT INTO `users` (`id`, `user`, `email`, `level`, `password`) VALUES
 (6, 'renatogomes', 'renatokakashi0109@gmail.com', 'administrador', 'd2413bec8eacaa99151cdffeb86858f793c2ba3c827c4fa10a2224dfad9b107d'),
 (404, 'admin', 'admin@admin.com', 'dev', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `id_vendor` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -135,6 +190,12 @@ INSERT INTO `users` (`id`, `user`, `email`, `level`, `password`) VALUES
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id_categorie`);
+
+--
+-- Índices para tabela `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id_client`);
 
 --
 -- Índices para tabela `images`
@@ -150,17 +211,40 @@ ALTER TABLE `products`
   ADD KEY `id_categorie` (`id_categorie`);
 
 --
--- Índices para tabela `product_entries`
+-- Índices para tabela `purchases`
 --
-ALTER TABLE `product_entries`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`id_purchase`);
+
+--
+-- Índices para tabela `purchases_items`
+--
+ALTER TABLE `purchases_items`
+  ADD PRIMARY KEY (`id_item_purchase`);
+
+--
+-- Índices para tabela `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id_sale`);
+
+--
+-- Índices para tabela `sales_items`
+--
+ALTER TABLE `sales_items`
+  ADD PRIMARY KEY (`id_item_sale`);
 
 --
 -- Índices para tabela `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`id_vendor`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -171,6 +255,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `categories`
   MODIFY `id_categorie` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id_client` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `images`
@@ -185,16 +275,40 @@ ALTER TABLE `products`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
--- AUTO_INCREMENT de tabela `product_entries`
+-- AUTO_INCREMENT de tabela `purchases`
 --
-ALTER TABLE `product_entries`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `purchases`
+  MODIFY `id_purchase` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `purchases_items`
+--
+ALTER TABLE `purchases_items`
+  MODIFY `id_item_purchase` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id_sale` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `sales_items`
+--
+ALTER TABLE `sales_items`
+  MODIFY `id_item_sale` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
+
+--
+-- AUTO_INCREMENT de tabela `vendors`
+--
+ALTER TABLE `vendors`
+  MODIFY `id_vendor` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
