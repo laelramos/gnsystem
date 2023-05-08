@@ -91,7 +91,21 @@ require('_validacao.php');
                                                             <td><?php echo $quantity; ?></td>
                                                             <td><?php echo $price; ?></td>
                                                             <td><?php echo $total; ?></td>
-                                                            <th><span class="text-success">Em trânsito</span></th>
+                                                            <th>
+                                                                <span class="<?php
+                                                                                if ($row_item['status'] == 'Em trânsito') {
+                                                                                    echo 'text-success';
+                                                                                } elseif ($row_item['status'] == 'Cancelado') {
+                                                                                    echo 'text-danger';
+                                                                                } else {
+                                                                                    echo 'text-white';
+                                                                                }
+                                                                                ?>">
+                                                                    <?php echo $row_item['status']; ?>
+                                                                </span>
+                                                            </th>
+
+
                                                         </tr>
                                                 <?php
                                                     }
