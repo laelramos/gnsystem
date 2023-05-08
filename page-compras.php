@@ -85,12 +85,18 @@ require('_validacao.php');
                                                         $quantity = $row_item["quantity"];
                                                         $price = $row_item["price"];
                                                         $total = $quantity * $price;
+
+                                                        // float para R$
+                                                        $price_formatted = "R$" . number_format($price, 2, ',', '.');
+                                                        $total_formatted = "R$" . number_format($total, 2, ',', '.');
+                                                        $total_purchase_formatted = "R$" . number_format($total_purchase, 2, ',', '.');
+
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $description; ?></td>
                                                             <td><?php echo $quantity; ?></td>
-                                                            <td><?php echo $price; ?></td>
-                                                            <td><?php echo $total; ?></td>
+                                                            <td><?php echo $price_formatted; ?></td>
+                                                            <td><?php echo $total_formatted; ?></td>
                                                             <th>
                                                                 <span class="<?php
                                                                                 if ($row_item['status'] == 'Em trânsito') {
@@ -115,7 +121,7 @@ require('_validacao.php');
                                             <tfoot>
                                                 <tr>
                                                     <th colspan="4" style="text-align:right">Total:</th>
-                                                    <th><?php echo $total_purchase; ?></th>
+                                                    <th><?php echo $total_purchase_formatted; ?></th>
                                                 </tr>
                                             </tfoot>
                                         </table>
