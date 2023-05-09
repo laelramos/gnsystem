@@ -191,54 +191,30 @@ require('_validacao.php');
 
                                     <div class="card-body bg-light">
                                         <h4 class="card-title m-t-10 p-b-20">Dados adicionais</h4>
+                                        
                                         <div class="form-group row p-b-15">
-                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Company</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputEmail3" placeholder="Company Name Here">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row p-b-15">
-                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Interested In</label>
-                                            <div class="col-sm-9">
+                                            <label for="inputEmail3" class="col-sm-2 text-right control-label col-form-label">Pagamento</label>
+                                            <div class="col-sm-3">
                                                 <select class="form-control">
-                                                    <option>Choose Your Option</option>
-                                                    <option>Desiging</option>
-                                                    <option>Development</option>
-                                                    <option>Videography</option>
+                                                    <option>Cartão</option>
+                                                    <option>Saldo</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="form-group row p-b-15">
-                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Budget</label>
-                                            <div class="col-sm-9">
+
+
+                                            <label for="inputEmail3" class="col-sm-2 text-right control-label col-form-label">Fornecedor</label>
+                                            <div class="col-sm-3">
                                                 <select class="form-control">
-                                                    <option>Choose Your Option</option>
-                                                    <option>Less then $5000</option>
-                                                    <option>$5000 - $10000</option>
-                                                    <option>$10000 - $20000</option>
+                                                    <option>Shopee</option>
+                                                    <option>Aliexpress</option>
                                                 </select>
                                             </div>
+
+                                            
+
                                         </div>
-                                        <div class="form-group row p-b-15">
-                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Select File</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">About Project</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputEmail3" placeholder="About Project Here">
-                                            </div>
-                                        </div>
+
+
                                     </div>
                                     <hr>
                                     <div class="form-actions">
