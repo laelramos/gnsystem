@@ -133,8 +133,9 @@ require('_validacao.php');
                         <?php
                             }
                         } else {
-                            echo "<p>Nenhuma compra encontrada.</p>";
+                            echo "<p>Nenhum registro encontrado.</p>";
                         }
+                        $conexao->close();
                         ?>
 
 

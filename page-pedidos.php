@@ -10,6 +10,7 @@ require('_validacao.php');
     <?php require('layout-head.php') ?>
     <!--This page CSS -->
     <link href="assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
     <style>
         #search-results {
@@ -52,7 +53,10 @@ require('_validacao.php');
 
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
-                <div class="row">
+
+                <!-- ============================================================== -->
+                <!-- Row cart-->
+                <div class="row" id="row-cart">
 
                     <div class="col-12">
                         <div class="card">
@@ -111,12 +115,155 @@ require('_validacao.php');
                                 <h2 id="total-value">R$0,00</h2>
                                 <hr>
                                 <button id="clear-cart" class="btn btn-danger"><i class="fa fa fa-trash"></i> Limpar</button>
-                                <button class="btn btn-success">Finalizar</button>
+                                <button class="btn btn-success">Continuar</button>
                             </div>
                         </div>
                     </div>
 
                 </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+
+
+                <!-- ============================================================== -->
+                <!-- Row -->
+                <div class="row" id="row-form" style="display: none;">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header bg-info">
+                                <h4 class="m-b-0 text-white">Detalhes do Pedido</h4>
+                            </div>
+                            <form class="form-horizontal r-separator">
+                                <div class="form-body">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Itens</h4>
+
+                                        <div class="form-group row p-b-15">
+                                            <div class="col-sm-2">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="form-control-static">Funko John Wick 58</p>
+                                            </div>
+
+                                            <div class="col-sm-1">
+                                                <p class="form-control-static text-right">x1</p>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <p class="form-control-static text-right">R$59,90</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row p-b-15">
+                                            <div class="col-sm-2">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="form-control-static">Funko Azog 58</p>
+                                            </div>
+
+                                            <div class="col-sm-1">
+                                                <p class="form-control-static text-right">x2</p>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <p class="form-control-static text-right">R$69,90</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row p-b-15">
+                                            <div class="col-sm-2">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="form-control-static">Funko Luna 58</p>
+                                            </div>
+
+                                            <div class="col-sm-1">
+                                                <p class="form-control-static text-right">x10</p>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <p class="form-control-static text-right">R$69,90</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="card-body bg-light">
+                                        <h4 class="card-title m-t-10 p-b-20">Dados adicionais</h4>
+                                        <div class="form-group row p-b-15">
+                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Company</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputEmail3" placeholder="Company Name Here">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row p-b-15">
+                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Interested In</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control">
+                                                    <option>Choose Your Option</option>
+                                                    <option>Desiging</option>
+                                                    <option>Development</option>
+                                                    <option>Videography</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row p-b-15">
+                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Budget</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control">
+                                                    <option>Choose Your Option</option>
+                                                    <option>Less then $5000</option>
+                                                    <option>$5000 - $10000</option>
+                                                    <option>$10000 - $20000</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row p-b-15">
+                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">Select File</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-sm-3 text-right control-label col-form-label">About Project</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputEmail3" placeholder="About Project Here">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-offset-3 col-md-9">
+                                                            <button type="submit" class="btn btn-danger"> <i class="fa fa-pencil"></i> Edit</button>
+                                                            <button type="button" class="btn btn-dark">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6"> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+
                 <!-- End Page Content -->
                 <!-- ============================================================== -->
 
@@ -160,6 +307,22 @@ require('_validacao.php');
     <script src="dist/js/custom.min.js"></script>
     <script src="assets/libs/toastr/build/toastr.min.js"></script>
     <script src="assets/extra-libs/toastr/toastr-init.js"></script>
+    <script src="assets/libs/moment/moment.js"></script>
+    <script src="assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        // Date Picker
+        jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker();
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        jQuery('#date-range').datepicker({
+            toggleActive: true
+        });
+        jQuery('#datepicker-inline').datepicker({
+            todayHighlight: true
+        });
+    </script>
 
 
     <script>
@@ -422,6 +585,19 @@ require('_validacao.php');
 
                 // Abra o modal de cadastro de produtos
                 $('#new-product-modal').modal('show');
+            });
+
+
+            // Evento de clique no botão "Continuar"
+            $('.btn.btn-success').on('click', function() {
+                $('#row-cart').hide();
+                $('#row-form').show();
+            });
+
+            // Evento de clique no botão "Cancelar"
+            $('.btn.btn-dark').on('click', function() {
+                $('#row-form').hide();
+                $('#row-cart').show();
             });
 
 
