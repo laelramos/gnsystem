@@ -146,7 +146,7 @@ require('_validacao.php');
                                             </div>
 
                                             <div class="col-sm-1">
-                                                <p class="form-control-static text-right">x1</p>
+                                                <p class="form-control-static text-right">x1 (qtd)</p>
                                             </div>
 
                                             <div class="col-sm-3">
