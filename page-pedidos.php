@@ -115,7 +115,7 @@ require('_validacao.php');
                                 <h2 id="total-value">R$0,00</h2>
                                 <hr>
                                 <button id="clear-cart" class="btn btn-danger"><i class="fa fa fa-trash"></i> Limpar</button>
-                                <button class="btn btn-success">Continuar</button>
+                                <button class="btn btn-success" id="btn-finaliza-venda">Continuar</button>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ require('_validacao.php');
 
 
                 <!-- ============================================================== -->
-                <!-- Row -->
+                <!-- Row form-->
                 <div class="row" id="row-form" style="display: none;">
                     <div class="col-lg-12">
                         <div class="card">
@@ -158,31 +158,15 @@ require('_validacao.php');
                                             <div class="col-sm-2">
                                             </div>
                                             <div class="col-sm-6">
-                                                <p class="form-control-static">Funko Azog 58</p>
+                                                <p class="form-control-static">Funko John Wick 58</p>
                                             </div>
 
                                             <div class="col-sm-1">
-                                                <p class="form-control-static text-right">x2</p>
+                                                <p class="form-control-static text-right">x1</p>
                                             </div>
 
                                             <div class="col-sm-3">
-                                                <p class="form-control-static text-right">R$69,90</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row p-b-15">
-                                            <div class="col-sm-2">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="form-control-static">Funko Luna 58</p>
-                                            </div>
-
-                                            <div class="col-sm-1">
-                                                <p class="form-control-static text-right">x10</p>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <p class="form-control-static text-right">R$69,90</p>
+                                                <p class="form-control-static text-right">R$59,90</p>
                                             </div>
                                         </div>
 
@@ -191,31 +175,50 @@ require('_validacao.php');
 
                                     <div class="card-body bg-light">
                                         <h4 class="card-title m-t-10 p-b-20">Dados adicionais</h4>
-                                        
+
                                         <div class="form-group row p-b-15">
-                                            <label for="inputEmail3" class="col-sm-2 text-right control-label col-form-label">Pagamento</label>
-                                            <div class="col-sm-3">
+                                            <label class="col-sm-1 text-right control-label col-form-label">Pagamento:</label>
+                                            <div class="col-sm-2">
                                                 <select class="form-control">
                                                     <option>Cartão</option>
                                                     <option>Saldo</option>
                                                 </select>
                                             </div>
 
-
-                                            <label for="inputEmail3" class="col-sm-2 text-right control-label col-form-label">Fornecedor</label>
-                                            <div class="col-sm-3">
+                                            <label class="col-sm-1 text-right control-label col-form-label">Fornecedor:</label>
+                                            <div class="col-sm-2">
                                                 <select class="form-control">
                                                     <option>Shopee</option>
                                                     <option>Aliexpress</option>
                                                 </select>
                                             </div>
 
-                                            
+                                            <label class="col-sm-1 text-right control-label col-form-label">Data:</label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i class="icon-calender"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </div>
-
-
                                     </div>
+
+                                    <!-- total -->
+                                    <div class="card-body bg-light">
+                                        <div class="form-group row p-b-15">
+                                            <div class="col-md-11 text-right">
+                                                <h3 class="card-title m-t-10 p-b-20">Total: </h4>
+                                            </div>
+
+                                            <div class="col-md-1 text-right">
+                                                <h3 class="card-title m-t-10 p-b-20">R$59,90</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <hr>
                                     <div class="form-actions">
                                         <div class="card-body">
@@ -223,8 +226,8 @@ require('_validacao.php');
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-offset-3 col-md-9">
-                                                            <button type="submit" class="btn btn-danger"> <i class="fa fa-pencil"></i> Edit</button>
-                                                            <button type="button" class="btn btn-dark">Cancel</button>
+                                                            <button type="button" class="btn btn-secondary" id="btn-fecha-detalhes">Voltar</button>
+                                                            <button type="button" class="btn btn-success" id="">Finalizar</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -565,13 +568,13 @@ require('_validacao.php');
 
 
             // Evento de clique no botão "Continuar"
-            $('.btn.btn-success').on('click', function() {
+            $('#btn-finaliza-venda').on('click', function() {
                 $('#row-cart').hide();
                 $('#row-form').show();
             });
 
             // Evento de clique no botão "Cancelar"
-            $('.btn.btn-dark').on('click', function() {
+            $('#btn-fecha-detalhes').on('click', function() {
                 $('#row-form').hide();
                 $('#row-cart').show();
             });
