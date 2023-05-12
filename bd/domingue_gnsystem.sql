@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 09-Maio-2023 às 09:21
+-- Tempo de geração: 12-Maio-2023 às 16:50
 -- Versão do servidor: 8.0.33-0ubuntu0.22.04.1
 -- versão do PHP: 8.1.2-1ubuntu2.11
 
@@ -71,6 +71,26 @@ CREATE TABLE `images` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `methods_payment`
+--
+
+CREATE TABLE `methods_payment` (
+  `id_method` int NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `methods_payment`
+--
+
+INSERT INTO `methods_payment` (`id_method`, `name`) VALUES
+(1, 'Saldo'),
+(2, 'Cartão de Crédito'),
+(3, 'Cheque');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `products`
 --
 
@@ -103,16 +123,17 @@ CREATE TABLE `purchases` (
   `id_purchase` int NOT NULL,
   `date_purchase` date NOT NULL,
   `id_vendor` int NOT NULL,
-  `total_purchase` float NOT NULL
+  `total_purchase` float NOT NULL,
+  `id_method` int NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Extraindo dados da tabela `purchases`
 --
 
-INSERT INTO `purchases` (`id_purchase`, `date_purchase`, `id_vendor`, `total_purchase`) VALUES
-(1, '2023-05-01', 1, 159.8),
-(2, '2023-05-08', 2, 100);
+INSERT INTO `purchases` (`id_purchase`, `date_purchase`, `id_vendor`, `total_purchase`, `id_method`) VALUES
+(1, '2023-05-01', 1, 159.8, 0),
+(2, '2023-05-08', 2, 100, 0);
 
 -- --------------------------------------------------------
 
@@ -205,7 +226,8 @@ CREATE TABLE `vendors` (
 
 INSERT INTO `vendors` (`id_vendor`, `name`) VALUES
 (1, 'Shopee'),
-(2, 'Aliexpress');
+(2, 'Aliexpress'),
+(3, 'outro');
 
 --
 -- Índices para tabelas despejadas
@@ -228,6 +250,12 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `images`
   ADD PRIMARY KEY (`id_image`);
+
+--
+-- Índices para tabela `methods_payment`
+--
+ALTER TABLE `methods_payment`
+  ADD PRIMARY KEY (`id_method`);
 
 --
 -- Índices para tabela `products`
@@ -295,6 +323,12 @@ ALTER TABLE `images`
   MODIFY `id_image` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `methods_payment`
+--
+ALTER TABLE `methods_payment`
+  MODIFY `id_method` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de tabela `products`
 --
 ALTER TABLE `products`
@@ -334,7 +368,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `id_vendor` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_vendor` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

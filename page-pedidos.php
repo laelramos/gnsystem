@@ -115,7 +115,7 @@ require('_validacao.php');
                                 <h2 id="total-value">R$0,00</h2>
                                 <hr>
                                 <button id="clear-cart" class="btn btn-danger"><i class="fa fa fa-trash"></i> Limpar</button>
-                                <button class="btn btn-success" id="btn-finaliza-venda">Continuar</button>
+                                <button class="btn btn-success" id="btn-detalhes-venda">Continuar</button>
                             </div>
                         </div>
                     </div>
@@ -138,58 +138,55 @@ require('_validacao.php');
                                     <div class="card-body">
                                         <h4 class="card-title">Itens</h4>
 
-                                        <div class="form-group row p-b-15">
-                                            <div class="col-sm-2">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="form-control-static">Funko John Wick 58</p>
-                                            </div>
-
-                                            <div class="col-sm-1">
-                                                <p class="form-control-static text-right">x1 (qtd)</p>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <p class="form-control-static text-right">R$59,90</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row p-b-15">
-                                            <div class="col-sm-2">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="form-control-static">Funko John Wick 58</p>
-                                            </div>
-
-                                            <div class="col-sm-1">
-                                                <p class="form-control-static text-right">x1</p>
-                                            </div>
-
-                                            <div class="col-sm-3">
-                                                <p class="form-control-static text-right">R$59,90</p>
-                                            </div>
-                                        </div>
-
                                     </div>
 
 
                                     <div class="card-body bg-light">
                                         <h4 class="card-title m-t-10 p-b-20">Dados adicionais</h4>
 
-                                        <div class="form-group row p-b-15">
+                                        <div class="form-group row p-b-15 fixed">
+                                            <?php
+                                            // Query para buscar todos os fornecedores na tabela 'methods_payments'
+                                            $query = "SELECT name FROM methods_payment";
+                                            $result = mysqli_query($conexao, $query);
+
+                                            // Verifica se a query foi bem sucedida
+                                            if (!$result) {
+                                                die("Falha na consulta ao banco de dados: " . mysqli_error($conexao));
+                                            }
+                                            ?>
                                             <label class="col-sm-1 text-right control-label col-form-label">Pagamento:</label>
                                             <div class="col-sm-2">
                                                 <select class="form-control">
-                                                    <option>Cartão</option>
-                                                    <option>Saldo</option>
+                                                    <?php
+                                                    // Loop através dos resultados e adiciona cada um como uma opção no dropdown
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        echo "<option>" . $row['name'] . "</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
+
+                                            <?php
+                                            // Query para buscar todos os fornecedores na tabela 'vendors'
+                                            $query = "SELECT name FROM vendors";
+                                            $result = mysqli_query($conexao, $query);
+
+                                            // Verifica se a query foi bem sucedida
+                                            if (!$result) {
+                                                die("Falha na consulta ao banco de dados: " . mysqli_error($conexao));
+                                            }
+                                            ?>
 
                                             <label class="col-sm-1 text-right control-label col-form-label">Fornecedor:</label>
                                             <div class="col-sm-2">
                                                 <select class="form-control">
-                                                    <option>Shopee</option>
-                                                    <option>Aliexpress</option>
+                                                    <?php
+                                                    // Loop através dos resultados e adiciona cada um como uma opção no dropdown
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        echo "<option>" . $row['name'] . "</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
 
@@ -208,13 +205,13 @@ require('_validacao.php');
 
                                     <!-- total -->
                                     <div class="card-body bg-light">
-                                        <div class="form-group row p-b-15">
+                                        <div class="form-group row p-b-15 fixed">
                                             <div class="col-md-11 text-right">
                                                 <h3 class="card-title m-t-10 p-b-20">Total: </h4>
                                             </div>
 
                                             <div class="col-md-1 text-right">
-                                                <h3 class="card-title m-t-10 p-b-20">R$59,90</h4>
+                                                <h3 class="card-title m-t-10 p-b-20">R$00,00</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +224,7 @@ require('_validacao.php');
                                                     <div class="row">
                                                         <div class="col-md-offset-3 col-md-9">
                                                             <button type="button" class="btn btn-secondary" id="btn-fecha-detalhes">Voltar</button>
-                                                            <button type="button" class="btn btn-success" id="">Finalizar</button>
+                                                            <button type="button" class="btn btn-success" id="btn-finaliza_venda">Finalizar</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -580,6 +577,83 @@ require('_validacao.php');
             });
 
 
+        });
+    </script>
+
+    <script>
+        $('#btn-detalhes-venda').click(function() {
+            // Limpe os detalhes do pedido existentes
+            $('#row-form .form-group.row.p-b-15').not('.fixed').remove();
+            $('#row-cart').hide();
+            $('#row-form').show();
+
+            // Para cada linha na tabela do carrinho
+            $('#product-table tbody tr').each(function() {
+                // Extraia as informações do produto da linha
+                let productDescription = $(this).find('td:nth-child(1)').text();
+                let productQuantity = $(this).find('td:nth-child(2)').text();
+                let productPrice = $(this).find('td:nth-child(4)').text();
+
+                // Crie um novo elemento de linha para os detalhes do pedido
+                let orderDetailRow = `
+            <div class="form-group row p-b-15">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-6">
+                    <p class="form-control-static">${productDescription}</p>
+                </div>
+                <div class="col-sm-1">
+                    <p class="form-control-static text-right">x${productQuantity}</p>
+                </div>
+                <div class="col-sm-3">
+                    <p class="form-control-static text-right">${productPrice}</p>
+                </div>
+            </div>`;
+
+                // Adicione a nova linha aos detalhes do pedido
+                $('#row-form .card-body:first').append(orderDetailRow);
+            });
+
+            // Mostre os detalhes do pedido
+            $('#row-form').show();
+
+            // Copie o total
+            let total = $('#total-value').text();
+            $('#row-form .card-title:contains("Total:")').next().text(total);
+        });
+    </script>
+
+    <script>
+        function getCartArray() {
+            let cart = localStorage.getItem('cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        function setCartArray(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        
+        $('#btn-finaliza_venda').on('click', function() {
+            var paymentMethod = $('#payment-method').val();
+            var vendor = $('#vendor').val();
+            var date = $('#datepicker-autoclose').val();
+            var cartItems = cart.getCartArray();
+
+            $.ajax({
+                url: 'finalizar_pedido.php',
+                type: 'POST',
+                data: {
+                    paymentMethod: paymentMethod,
+                    vendor: vendor,
+                    date: date,
+                    cartItems: JSON.stringify(cartItems)
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
         });
     </script>
 
