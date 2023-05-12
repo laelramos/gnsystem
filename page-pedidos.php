@@ -631,7 +631,7 @@ require('_validacao.php');
         function setCartArray(cart) {
             localStorage.setItem('cart', JSON.stringify(cart));
         }
-        
+        s
         $('#btn-finaliza_venda').on('click', function() {
             var paymentMethod = $('#payment-method').val();
             var vendor = $('#vendor').val();
